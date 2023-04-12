@@ -1,0 +1,83 @@
+@charset 'utf-8';
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+
+$black:#000;
+$white:#fff;
+$point:#de85b1;
+
+$roboto:'Roboto', sans-serif;
+
+@mixin point_c($a1:null){color:rgba(222,133,177, $a1)};
+@mixin point_b($a1:null){color:rgba(222,133,177, $a2)};
+@mixin font($fs:null, $fw:null, $ff:null, $fo:null){font-size:$fs; font-weight:$fw; font-family:$ff; color:$fo}
+@mixin conSize($width:null, $height:null){width:$width; height:$height;}
+@mixin dis-flex($ai:null, $jc:null, $ff:null, $g1:null){display:flex; align-items:$ai; justify-content:$jc; flex-flow:$ff; gap:$g1}
+@mixin dis-grid($num1:null, $num2:null, $g2:null){display:grid; grid-template-columns:repeat($num1, $num2 + #{fr}); gap:$g2}
+@mixin position($position:null, $tp:null, $rg:null, $bt:null, $lf:null, $zd:null){position:$position; top:$tp; right:$rg; bottom:$bt; left:$lf; z-index:$zd;}
+
+body{margin:0; padding:0; overflow-x:hidden; background:$black; color:$white;}
+*{margin:0; padding:0;}
+ul, li{list-style:none;}
+a{display:block; color:$white; text-decoration:none; }
+
+
+.at-header{width:100%; @include position(fixed, 0, null, null, 0, 99);
+    .header-inner{@include conSize(null, 100px); line-height:100px; @include dis-flex(center, space-between, null, null); padding:0 5em;
+        .logo{
+            a{display:flex;
+                img{width:auto; height:50px;}
+            }
+        }
+        .rg{@include conSize(30px, 30px); @include dis-flex(null, null, column, 7px); cursor:pointer;
+            span{@include conSize(100%, 2px); display:block; background:$white;
+                &:nth-child(2){@include conSize(calc(100% - 7px), null)}
+            }
+        }
+    }
+}
+
+.container_wide{padding:100px 0;}
+.section01{
+    &-inner{@include dis-flex(null, null, null, null); padding:5em;
+        .lf{flex:0.4; @include dis-flex(null, null, column, 50px);
+            img{width:100%; filter:brightness(.5);}
+        }
+        .rg{flex:0.6; padding:0 0 0 3em;
+            .music_ul{height:35.15vw; @include dis-grid(3, 1, null);
+                li{flex:1; position:relative; padding:30px 0 0 0; @include font(1.3rem, null, $roboto, $white); text-transform:uppercase;
+                    span{position:absolute;}
+                    &:nth-child(4),
+                    &:nth-child(8){
+                        span{top:0; @include font(clamp(5rem, 9vw, 10rem), 700, null, null);}
+                    }
+                    &:nth-child(5){@include dis-flex(center, center, null, null);
+                        p{@include conSize(50px, 1px); background:rgb(255,255,255, .3)}
+                        &::after{display:none;}
+                    }
+                    &:nth-child(6){
+                        &::after{display:none;}
+                    }
+                    &:nth-child(7){@include dis-flex(center, center, null, null);
+                        p{@include conSize(1px, 50px); background:rgb(255,255,255, .3)}
+                        &::after{display:none;}
+                    }
+                    &:last-child{
+                        &::after{display:none;}
+                    }
+                    &::after{content:""; @include conSize(10px, 10px); @include position(absolute, 0, null, null, 0, null); background:$point;}
+                } 
+            }
+            .color_bx{margin:150px 0 0 0;
+                .line-bx{width:100%; @include dis-flex(flex-end, null, column, 15px);
+                    .line{@include conSize(calc(100% - 500px), 40px); background:$point;
+                        &:nth-child(2){margin:50px 0 0 0;}
+                    }
+                }
+                .txt{line-height:1; position:relative; @include font(clamp(5rem, 9vw, 10rem), 700, null, $white); text-transform:uppercase;
+                    &::after{content:""; @include conSize(100%, 18px); @include position(absolute, null, null, 13px, 185px, null); background:$white;}
+                }
+            }
+        }
+    }
+}
