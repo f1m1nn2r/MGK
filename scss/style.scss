@@ -74,7 +74,7 @@ a{display:block; color:$white; text-decoration:none; }
                         &:nth-child(2){margin:50px 0 0 0;}
                     }
                 }
-                .txt{line-height:1; position:relative; @include font(clamp(5rem, 9vw, 10rem), 700, null, $white); text-transform:uppercase;
+                .txt{line-height:1; position:relative; @include font(clamp(5rem, 9vw, 10rem), 700, $roboto, $white); text-transform:uppercase;
                     &::after{content:""; @include conSize(100%, 18px); @include position(absolute, null, null, 13px, 185px, null); background:$white;}
                 }
             }
