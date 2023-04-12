@@ -4,9 +4,11 @@
 
 $black:#000;
 $white:#fff;
-$point:#de85b1;
-
+$point1:rgb(222, 133, 177);
+$point2:rgb(218,142,147);
+$point3:rgb(227,126,123);
 $roboto:'Roboto', sans-serif;
+$easing:cubic-bezier(0.215, 0.61, 0.355, 1);;
 
 @mixin point_c($a1:null){color:rgba(222,133,177, $a1)};
 @mixin point_b($a1:null){color:rgba(222,133,177, $a2)};
@@ -21,6 +23,12 @@ body{margin:0; padding:0; overflow-x:hidden; background:$black; color:$white;}
 ul, li{list-style:none;}
 a{display:block; color:$white; text-decoration:none; }
 
+.gradient{
+    $_map:('point1':rgb(222, 133, 177), 'point2':rgb(218,142,147), 'point3':rgb(227,126,123));
+    @each $circle, $bgColor in $_map{
+        &.#{$circle}{background:$bgColor;}
+    }
+}
 
 .at-header{width:100%; @include position(fixed, 0, null, null, 0, 99);
     .header-inner{@include conSize(null, 100px); line-height:100px; @include dis-flex(center, space-between, null, null); padding:0 5em;
@@ -41,12 +49,29 @@ a{display:block; color:$white; text-decoration:none; }
 .section01{
     &-inner{@include dis-flex(null, null, null, null); padding:5em;
         .lf{flex:0.4; @include dis-flex(null, null, column, 50px);
-            img{width:100%; filter:brightness(.5);}
+            & > div{position:relative; z-index:2;
+                img{width:100%; filter:brightness(.5); transition:all 2.5s $easing; cursor:pointer;}
+                .division{@include conSize(100%, 100%); @include dis-flex(null, null, null, null); @include position(absolute, 0, null, null, 0, 1); opacity:0; visibility:hidden; transition:opacity 1.8s $easing, visibility 1.8s $easing;
+                    div{flex:1; @include conSize(null, 100%); background:rgba(0,0,0, .5); transition:all 1s $easing;
+                        @for $i from 1 to 4{
+                            &:nth-child(#{$i}){transition-delay:0.05s + $i/7;}
+                        }
+                    }
+                    &.show_{opacity:1; visibility:visible;
+                        div{height:0;}
+                    }
+                }
+                &.filter,
+                &.filter2{
+                    img{filter:brightness(1);}
+                }
+            }
         }
-        .rg{flex:0.6; padding:0 0 0 3em;
+        .rg{flex:0.6; position:relative; padding:0 0 0 3em;
             .music_ul{height:35.15vw; @include dis-grid(3, 1, null);
                 li{flex:1; position:relative; padding:30px 0 0 0; @include font(1.3rem, null, $roboto, $white); text-transform:uppercase;
                     span{position:absolute;}
+                    &::after{content:""; @include conSize(10px, 10px); @include position(absolute, 0, null, null, 0, null); background:$point1;}
                     &:nth-child(4),
                     &:nth-child(8){
                         span{top:0; @include font(clamp(5rem, 9vw, 10rem), 700, null, null);}
@@ -65,19 +90,30 @@ a{display:block; color:$white; text-decoration:none; }
                     &:last-child{
                         &::after{display:none;}
                     }
-                    &::after{content:""; @include conSize(10px, 10px); @include position(absolute, 0, null, null, 0, null); background:$point;}
                 } 
             }
             .color_bx{margin:150px 0 0 0;
                 .line-bx{width:100%; @include dis-flex(flex-end, null, column, 15px);
-                    .line{@include conSize(calc(100% - 500px), 40px); background:$point;
-                        &:nth-child(2){margin:50px 0 0 0;}
+                    .line{@include conSize(calc(100% - 500px), 40px);
+                        &:nth-child(2){margin:50px 0 0 0;} 
                     }
                 }
-                .txt{line-height:1; position:relative; @include font(clamp(5rem, 9vw, 10rem), 700, $roboto, $white); text-transform:uppercase;
-                    &::after{content:""; @include conSize(100%, 18px); @include position(absolute, null, null, 13px, 185px, null); background:$white;}
+                .txt{@include conSize(null, 136px); line-height:1; position:relative; @include font(clamp(5rem, 9vw, 10rem), 700, $roboto, $white); text-transform:uppercase;
+                    &::after{content:""; @include conSize(100%, 19px); @include position(absolute, null, null, 0, 185px, null); background:$white;}
+                }
+                .lr-txt{@extend .txt; @include conSize(138px, auto); margin:19px 0 0 9vw; writing-mode:vertical-lr;
+                    &::after{@include conSize(19.7px, 100%); @include position(null, calc(100% - 3px), 0, auto, auto, null);}
+                }
+                .bt-txt{@extend .txt; height:auto; margin:0 0 0 18vw;
+                    span{color:$point1;}
+                    &::after{display:none;}
+                }
+                .bt-con{@include dis-flex(null, null, null, null); @include position(absolute, null, 0, 0, null, null);
+                    .circle{@include conSize(180px, 180px); margin:0 0 0 -50px; border-radius:50%;}
+                    img{@include conSize(auto, 180px);}
                 }
             }
         }
     }
 }
+.section02{height:100vh;}
